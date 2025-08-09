@@ -23,39 +23,42 @@ class HomeView extends GetView<HomeController> {
     );
 
     return Scaffold(
+      // backgroundColor: Colors.red[500],
       body: GetBuilder<HomeController>(
         init: HomeController(),
         builder: (controller) {
-          return Stack(
-            children: [
-              Obx(() {
-                if (controller.showErrorWidget.value) {
-                  log('message');
-                  return _connectionErrorWidget(controller);
-                } else {
-                  log('message test');
+          return SafeArea(
+            child: Stack(
+              children: [
+                Obx(() {
+                  if (controller.showErrorWidget.value) {
+                    log('message');
+                    return _connectionErrorWidget(controller);
+                  } else {
+                    log('message test');
 
-                  return WebViewWidget(
-                    controller: controller.webViewController,
-                  );
-                }
-              }),
+                    return WebViewWidget(
+                      controller: controller.webViewController,
+                    );
+                  }
+                }),
 
-              // Loading indicator overlay
-              Obx(
-                () =>
-                    controller.isLoading.value
-                        ? Container(
-                          color: Colors.white.withValues(alpha: 0.8),
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFF007BFF),
+                // Loading indicator overlay
+                Obx(
+                  () =>
+                      controller.isLoading.value
+                          ? Container(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFF007BFF),
+                              ),
                             ),
-                          ),
-                        )
-                        : const SizedBox.shrink(),
-              ),
-            ],
+                          )
+                          : const SizedBox.shrink(),
+                ),
+              ],
+            ),
           );
         },
       ),
